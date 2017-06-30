@@ -2,6 +2,7 @@ package com.apichai.jo.silverscreen.adapters;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apichai.jo.silverscreen.R;
+import com.apichai.jo.silverscreen.activities.MovieDetailActivity;
 import com.apichai.jo.silverscreen.models.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -22,8 +24,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     private Context mContext;
     private List<Movie> mMovies;
 
-    public static class MovieViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.movies_poster)
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public Integer movieId;
+
+        @BindView(R.id.movie_poster)
         public ImageView moviePoster;
 
         @BindView(R.id.movie_title)
@@ -32,6 +36,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         public MovieViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent detailIntent = new Intent(mContext, MovieDetailActivity.class);
+            detailIntent.putExtra("id", movieId);
+            mContext.startActivity(detailIntent);
         }
     }
 
@@ -57,7 +69,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
         Movie movie = mMovies.get(position);
+        holder.movieId = movie.getId();
         holder.movieTitle.setText(movie.getTitle());
-        Picasso.with(mContext).load(movie.getThumbnailPath()).into(holder.moviePoster);
+        Picasso.with(mContext).load(movie.getPosterPath("small")).into(holder.moviePoster);
     }
 }

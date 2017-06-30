@@ -6,7 +6,7 @@
     android:layout_margin="@dimen/default_margin">
 
     <ImageView
-        android:id="@+id/movies_poster"
+        android:id="@+id/movie_poster"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center" />
